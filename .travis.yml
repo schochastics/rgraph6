@@ -1,12 +1,41 @@
-language: r
-r:
-- release
-- devel
-sudo: false
 cache: packages
 notifications:
   email:
     on_success: change
-    on_failure: always
-  slack:
-    secure: ACFh2Qz0xMXVkJ80bAANcIq7Bl+dcmDtquqozWx/c4QVmwHOr6WANVWBotHlEj9J5deBZ9s8nQZmiCuo60uZuNEdxPLpckeA9+tTOf39Zjzwv/7aS7yjqkrI+nbVIy/QPMi4y7NdVE0QR12c9acg9/ZZDfjzFgZl2wh8diP6zKW+WOYSbBEPv6+rmrOkHFmdCc5JeVkudhEwG+v1Rgj6QwYC+6d+3dgf291xOGIviBsfDkXhlaT79oH66mAwPa9OtXvNlpeSN7AoGL7p8lJ65FU2bXR4vLXEpX8G8c04B6/Q+23Co99/cDifXu5litcghDCJNLb4w0WwN/U826rsCevUFMeqNPhxVpYmBzSWYtbongt2RRpgvpQruQFKeV+TMn4UoBYwFlRR2ngiZTngoS5UIOYkbQazMdhPhElGaYRTSe5uC7G/yUqX/0FItkLrAwumin393pMRqKqFSblljlgVUSMI4oSEPskgsPCayGHNJcwyBDAOTbZTzvBHM56KkCvBIPVHSIQ+7+Ui1xv95Gwl+cBptQDtf8azm+yayMR+M8IRpMs6Cpm5f+WrkmHyR+A90qR2BzKn688XKJHYxaJCPTFiQnL/z+KTbkAd0jyeyUltP9otW7/d9WxcnKsAfhVRwRiJOba4NRHplFNi0mzVNxevvwKGAJSF64a28bk=
+    on_failure: change
+jobs:
+  include:
+  - os: linux
+    language: r
+    r: release
+    deploy:
+      - provider: script  # master branch to drat
+        skip_cleanup: true
+        script:
+        - Rscript -e 'install.packages("drat")'
+        - bash .travis/deploy-linux.sh
+        on:
+          branch: master
+      - provider: release  # dev branch to GH release
+        skip_cleanup: true
+        file:
+          - "$PKG_TARBALL"
+        on:
+          branch: dev
+        
+  - os: windows
+    language: shell
+    before_install:
+    - source .travis/travis-win-install.sh
+    script:
+    - R.exe CMD build . --no-manual
+    - R.exe CMD check $PKG_TARBALL --no-manual --install-args=--build
+    after_success:
+    - R.exe CMD INSTALL --build $PKG_TARBALL
+    - Rscript.exe -e 'install.packages("drat")'
+    - source .travis/deploy-windows.sh
+
+
+env:
+  global:
+    secure: IOcYc5JwiJ058W6Snq1fvKorr8ii7sTulCn/vU/LRVuf+x72JaXqvxp6tMOzUHZPiPYjZIICD9eBBXjXVycbMuMAXFc/wpTQwwgZv76EJzPL5TxXkWRJ2Wl8qg2uMLtHk89XoeyjUarILV5EzkSSMCKzEL27YJR8k69uJV70yHzG1t7nFgxGma9z/mIxkoXVBQpapWjD+nO9PhWgEJ3Ca8lW+nEg08YFeiA2BcwWD7+8gOlGzHOaiegT5PFiJm+rdaqEPkFVxmc0PNAO5MA6/7df51rCHyXifGWCqt+bx9XPlR/FWNh/AuazdSe1MgrlhnoGnmU73QrzEdl3582kxQx1tN0Lac5BsdEPVvJqMYuQ3B2WL0KAhS4KW13gxit62Cad8DNPubc1RcWtUMSbQaKRv+GWsPQeYN09HuM+n/BrTh38LBCt8WwnUgrH2LXDFBaVUvUSBUda0PF2/Z8iJZobOTWmzEL8GSLCNzr8MoOt+fFbqAoWOwoY/zJYqFyCCw577LWDDMePe9HiOceFxJA829tX8evl1kROQGm0Uc13xnJWuGS/c89tf6XOzEmDWsYJO2WuXxcLT2kNNrFuNDZIsJzBaVILDy70vo5cbEh0JP/1u9Z4Er+5mk8mGf6GVAaHR0AJQZYhIatrn8AO/ijoLedMIrox/f21erMH1E0=

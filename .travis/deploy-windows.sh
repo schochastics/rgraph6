@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 PKG_REPO=$PWD
 
-set -ev
+set -o errexit -o verbose
 
 mkdir ../drat
 

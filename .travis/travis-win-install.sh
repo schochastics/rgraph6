@@ -4,6 +4,7 @@ set -ev
 
 choco install zip
 choco install Rtools
+choco pandoc
 
 export PATH=$PATH:';C:\Rtools\bin'
 

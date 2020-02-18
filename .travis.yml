@@ -8,12 +8,12 @@ jobs:
   - os: linux
     language: r
     r: release
+    before_deploy:
+      - Rscript -e 'install.packages("drat")'
     deploy:
       - provider: script  # master branch to drat
         skip_cleanup: true
-        script:
-        - Rscript -e 'install.packages("drat")'
-        - bash .travis/deploy-linux.sh
+        script: .travis/deploy-linux.sh
         on:
           branch: master
       - provider: release  # dev branch to GH release

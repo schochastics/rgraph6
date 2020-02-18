@@ -32,13 +32,10 @@ jobs:
       - echo "PATH=$PATH"
       - R.exe CMD build . --no-manual
       # - R.exe CMD check $PKG_TARBALL --no-manual --install-args=--build
-    deploy:
-      - provider: script
-        skip_cleanup: true
-        script:
-          - R.exe CMD INSTALL --build $PKG_TARBALL
-          - Rscript.exe -e 'install.packages("drat")'
-          - bash .travis/deploy-windows.sh
+    after_success:
+      - R.exe CMD INSTALL --build $PKG_TARBALL
+      - Rscript.exe -e 'install.packages("drat")'
+      - source .travis/deploy-windows.sh
 
 
 env:

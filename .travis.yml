@@ -39,9 +39,5 @@ jobs:
       - R.exe CMD INSTALL --build $PKG_TARBALL
       - Rscript.exe -e 'install.packages("drat")'
       - source .travis/deploy-windows.sh
-  - os: windows
-    name: R-release Windows cmd
-    language: cmd
-    before_install:
 
 

@@ -37,7 +37,15 @@ jobs:
       # - R.exe CMD check $PKG_TARBALL --no-manual --install-args=--build
     after_success:
       - R.exe CMD INSTALL --build $PKG_TARBALL
+    before_deploy:
       - Rscript.exe -e 'install.packages("drat")'
-      - source .travis/deploy-windows.sh
+      - mkdir drat
+      - Rscript.exe -e "drat::insertPackage('$PKG_ZIP', repodir = 'drat', commit=FALSE)"
+    deploy:
+      provider: pages
+      skip_cleanup: true
+      repo: mbojan/drat
+      local_dir: drat
+      verbose: true
 
 

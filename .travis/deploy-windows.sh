@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 PKG_REPO=$PWD
 
+set -ev
+
 mkdir ../drat
 
 ## Set up Repo parameters

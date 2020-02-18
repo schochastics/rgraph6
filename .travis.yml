@@ -45,7 +45,7 @@ jobs:
       provider: pages
       skip_cleanup: true
       repo: mbojan/drat
-      github_token: $GH_TOKEN
+      token: $GH_TOKEN
       local_dir: drat
       verbose: true
 

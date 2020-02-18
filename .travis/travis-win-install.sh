@@ -6,7 +6,7 @@ choco install zip
 choco install Rtools
 choco install pandoc
 
-export PATH=$PATH:';C:\Rtools\bin'
+export PATH=$PATH:';C:\Rtools\bin;C:\Rtools\mingw_64\bin'
 
 choco install -y r.project &&
 export R_VERSION=`ls 'C:\Program Files\R\'` &&

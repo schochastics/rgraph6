@@ -6,11 +6,11 @@ choco install zip
 choco install Rtools
 choco install pandoc
 
-export PATH=$PATH:';C:\Rtools\bin;C:\Rtools\mingw_64\bin'
+export PATH='/c/Rtools/bin:/c/Rtools/mingw_64/bin':$PATH
 
 choco install -y r.project &&
 export R_VERSION=`ls 'C:\Program Files\R\'` &&
-export PATH=$PATH:';C:\Program Files\R\'$R_VERSION'\bin\x64' &&
+export PATH=$PATH:'/c/Program Files/R/'$R_VERSION'/bin/x64' &&
 echo 'options(repos = "https://cloud.r-project.org", install.packages.compile.from.source = "never")' > ~/.Rprofile.site &&
 export R_PROFILE=~/.Rprofile.site &&
 

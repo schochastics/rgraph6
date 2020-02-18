@@ -24,16 +24,21 @@ jobs:
           branch: dev
         
   - os: windows
+    name: R-release on Windows
     language: shell
     before_install:
-    - source .travis/travis-win-install.sh
+      - source .travis/travis-win-install.sh
     script:
-    - R.exe CMD build . --no-manual
-    - R.exe CMD check $PKG_TARBALL --no-manual --install-args=--build
-    after_success:
-    - R.exe CMD INSTALL --build $PKG_TARBALL
-    - Rscript.exe -e 'install.packages("drat")'
-    - source .travis/deploy-windows.sh
+      - echo "PATH=$PATH"
+      - R.exe CMD build . --no-manual
+      - R.exe CMD check $PKG_TARBALL --no-manual --install-args=--build
+    deploy:
+      - provider: script
+        skip_cleanup: true
+        script:
+          - R.exe CMD INSTALL --build $PKG_TARBALL
+          - Rscript.exe -e 'install.packages("drat")'
+          - bash .travis/deploy-windows.sh
 
 
 env:

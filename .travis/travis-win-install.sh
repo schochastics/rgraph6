@@ -1,7 +1,11 @@
 #!/usr/bin/env sh
 
+set -ev
+
 choco install zip
 choco install Rtools
+
+export PATH=$PATH:';C:\Rtools\bin'
 
 choco install -y r.project &&
 export R_VERSION=`ls 'C:\Program Files\R\'` &&

@@ -1,52 +1,32 @@
 cache: packages
 env:
   global:
-    secure: IOcYc5JwiJ058W6Snq1fvKorr8ii7sTulCn/vU/LRVuf+x72JaXqvxp6tMOzUHZPiPYjZIICD9eBBXjXVycbMuMAXFc/wpTQwwgZv76EJzPL5TxXkWRJ2Wl8qg2uMLtHk89XoeyjUarILV5EzkSSMCKzEL27YJR8k69uJV70yHzG1t7nFgxGma9z/mIxkoXVBQpapWjD+nO9PhWgEJ3Ca8lW+nEg08YFeiA2BcwWD7+8gOlGzHOaiegT5PFiJm+rdaqEPkFVxmc0PNAO5MA6/7df51rCHyXifGWCqt+bx9XPlR/FWNh/AuazdSe1MgrlhnoGnmU73QrzEdl3582kxQx1tN0Lac5BsdEPVvJqMYuQ3B2WL0KAhS4KW13gxit62Cad8DNPubc1RcWtUMSbQaKRv+GWsPQeYN09HuM+n/BrTh38LBCt8WwnUgrH2LXDFBaVUvUSBUda0PF2/Z8iJZobOTWmzEL8GSLCNzr8MoOt+fFbqAoWOwoY/zJYqFyCCw577LWDDMePe9HiOceFxJA829tX8evl1kROQGm0Uc13xnJWuGS/c89tf6XOzEmDWsYJO2WuXxcLT2kNNrFuNDZIsJzBaVILDy70vo5cbEh0JP/1u9Z4Er+5mk8mGf6GVAaHR0AJQZYhIatrn8AO/ijoLedMIrox/f21erMH1E0=
+  - secure: IOcYc5JwiJ058W6Snq1fvKorr8ii7sTulCn/vU/LRVuf+x72JaXqvxp6tMOzUHZPiPYjZIICD9eBBXjXVycbMuMAXFc/wpTQwwgZv76EJzPL5TxXkWRJ2Wl8qg2uMLtHk89XoeyjUarILV5EzkSSMCKzEL27YJR8k69uJV70yHzG1t7nFgxGma9z/mIxkoXVBQpapWjD+nO9PhWgEJ3Ca8lW+nEg08YFeiA2BcwWD7+8gOlGzHOaiegT5PFiJm+rdaqEPkFVxmc0PNAO5MA6/7df51rCHyXifGWCqt+bx9XPlR/FWNh/AuazdSe1MgrlhnoGnmU73QrzEdl3582kxQx1tN0Lac5BsdEPVvJqMYuQ3B2WL0KAhS4KW13gxit62Cad8DNPubc1RcWtUMSbQaKRv+GWsPQeYN09HuM+n/BrTh38LBCt8WwnUgrH2LXDFBaVUvUSBUda0PF2/Z8iJZobOTWmzEL8GSLCNzr8MoOt+fFbqAoWOwoY/zJYqFyCCw577LWDDMePe9HiOceFxJA829tX8evl1kROQGm0Uc13xnJWuGS/c89tf6XOzEmDWsYJO2WuXxcLT2kNNrFuNDZIsJzBaVILDy70vo5cbEh0JP/1u9Z4Er+5mk8mGf6GVAaHR0AJQZYhIatrn8AO/ijoLedMIrox/f21erMH1E0=
+  - secure: OUHDMnGR+jsvChOnboTbIan56rLbXgFmAjBwK0Vm/YW6jO0sIdjmfP53j4w0mvA3+SdOTL0TpbKJZGADxnmkXEG9y01KwEPjOM8vspe8G/+HapcM5yKyE/exndK9k33Te5JbmKzz5mnWGqnXCQpDNhvypcN2YPqB677kaQW8qQ8=
 notifications:
   email:
     on_success: change
     on_failure: change
 jobs:
   include:
-#  - os: linux
-#    language: r
-#    r: release
-#    before_deploy:
-#      - Rscript -e 'install.packages("drat")'
-#    deploy:
-#      - provider: script  # master branch to drat
-#        skip_cleanup: true
-#        script: .travis/deploy-linux.sh
-#        on:
-#          branch: master
-#      - provider: release  # dev branch to GH release
-#        skip_cleanup: true
-#        file:
-#          - "$PKG_TARBALL"
-#        on:
-#          branch: dev
-        
   - os: windows
     name: R-release on Windows shell
     language: shell
     before_install:
-      - source .travis/travis-win-install.sh
+    - source .travis/travis-win-install.sh
     script:
-      - echo "PATH=$PATH"
-      - R.exe CMD build . --no-manual
-      # - R.exe CMD check $PKG_TARBALL --no-manual --install-args=--build
+    - echo "PATH=$PATH"
+    - R.exe CMD build . --no-manual
     after_success:
-      - R.exe CMD INSTALL --build $PKG_TARBALL
+    - R.exe CMD INSTALL --build $PKG_TARBALL
     before_deploy:
-      - Rscript.exe -e 'install.packages("drat")'
-      - mkdir drat
-      - Rscript.exe -e "drat::insertPackage('$PKG_ZIP', repodir = 'drat', commit=FALSE)"
+    - Rscript.exe -e 'install.packages("drat")'
+    - mkdir drat
+    - Rscript.exe -e "drat::insertPackage('$PKG_ZIP', repodir = 'drat', commit=FALSE)"
     deploy:
       provider: pages
       skip_cleanup: true
       repo: mbojan/drat
-      github-token: $GH_TOKEN
+      github-token: "$GH_TOKEN"
       local-dir: drat
       verbose: true
-
-

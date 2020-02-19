@@ -18,8 +18,8 @@ jobs:
     - echo "PATH=$PATH"
     - R.exe CMD build . --no-manual
     after_success:
-    - test $TRAVIS_BRANCH == "ci" &&  \ 
-      test $TRAVIS_PULL_REQUEST == "false" && \
-      R.exe CMD INSTALL --build $PKG_TARBALL  && \ 
-      Rscript.exe -e 'install.packages("drat")' && \ 
+    - test $TRAVIS_BRANCH == "ci" &&
+      test $TRAVIS_PULL_REQUEST == "false" &&
+      R.exe CMD INSTALL --build $PKG_TARBALL  &&
+      Rscript.exe -e 'install.packages("drat")' &&
       bash .travis/deploy-drat.sh $PKG_ZIP

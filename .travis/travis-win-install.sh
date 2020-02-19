@@ -2,9 +2,7 @@
 
 set -ev
 
-choco install zip
-choco install Rtools
-choco install pandoc
+choco install -y zip pandoc Rtools
 
 export PATH='/c/Rtools/bin:/c/Rtools/mingw_64/bin':$PATH
 

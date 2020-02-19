@@ -21,12 +21,12 @@ jobs:
     - R.exe CMD INSTALL --build $PKG_TARBALL
     before_deploy:
     - Rscript.exe -e 'install.packages("drat")'
-    - mkdir drat
-    - Rscript.exe -e "drat::insertPackage('$PKG_ZIP', repodir = 'drat', commit=FALSE)"
+    - mkdir ../drat
+    - Rscript.exe -e "drat::insertPackage('$PKG_ZIP', repodir = '../drat', commit=FALSE)"
     deploy:
       provider: pages
       skip_cleanup: true
       repo: mbojan/drat
       github_token: $GH_TOKEN
-      local_dir: drat
+      local_dir: ../drat
       verbose: true

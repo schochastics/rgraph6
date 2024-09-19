@@ -241,11 +241,8 @@ is_author <- purrr::map_lgl(p, ~ "aut" %in% .x$role)
 
 **Co-authors**: `r paste(format(p[is_author & !is_maintainer], include = c("given", "family", "comment")), collapse=", ")`
 
-To cite this package please use the following entries:
+To cite this package please use the following two entries:
 
-```{r, echo=FALSE, results = "asis"}
-cat(format(
-  readCitationFile("inst/CITATION", meta = list(Encoding = "UTF-8")), 
-  style = "html"
-))
-```
+Bojanowski M, Schoch D (2024). _rgraph6: Representing Graphs as 'graph6', 'digraph6' or 'sparse6' Strings_. R package version 2.0-4, <https://mbojan.github.io/rgraph6/>.
+
+McKay, B. D., & Piperno, A. (2014). Practical graph isomorphism, II. _Journal of Symbolic Computation_, 60, 94-112.

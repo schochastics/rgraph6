@@ -48,11 +48,6 @@ Main functions for decoding are:
 
 Low-level functions are shown on the following graph:
 
-    #> Warning: Using the `size` aesthetic in this geom was deprecated in ggplot2 3.4.0.
-    #> ℹ Please use `linewidth` in the `default_aes` field and elsewhere instead.
-    #> This warning is displayed once every 8 hours.
-    #> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
-
 <img src="man/figures/README-functions-low-1.png" width="100%" />
 
 ## Examples
@@ -78,9 +73,6 @@ Encode as ‘sparse6’ symbols:
 
 ``` r
 as_sparse6(igraph_list)
-#> 'as(<dgCMatrix>, "dgTMatrix")' is deprecated.
-#> Use 'as(., "TsparseMatrix")' instead.
-#> See help("Deprecated") and help("Matrix-deprecated").
 #> [1] ":IeASjaeR" ":IoCp{^"   ":IiC]Rg"   ":IeIgWu`"  ":IgAo{@D"
 ```
 
@@ -99,19 +91,19 @@ x
 # Parse to igraph objects (package igraph required)
 igraph_from_text(x)
 #> [[1]]
-#> IGRAPH 7b8e70d U--- 15 10 -- 
-#> + edges from 7b8e70d:
+#> IGRAPH 1927a31 U--- 15 10 -- 
+#> + edges from 1927a31:
 #>  [1]  1-- 7  1--11  2-- 7  2--11  2--12  2--15  5-- 9  7--10  8--15 13--15
 #> 
 #> [[2]]
-#> IGRAPH 0fe0af5 U--- 15 13 -- 
-#> + edges from 0fe0af5:
+#> IGRAPH ce316d2 U--- 15 13 -- 
+#> + edges from ce316d2:
 #>  [1]  2-- 7  2-- 9  4--10  6--10  6--12  7--12 11--12  5--13  6--13 10--13
 #> [11]  4--15 10--15 14--15
 #> 
 #> [[3]]
-#> IGRAPH 7489f35 D--- 15 15 -- 
-#> + edges from 7489f35:
+#> IGRAPH 116772d D--- 15 15 -- 
+#> + edges from 116772d:
 #>  [1] 1-> 8 1->11 1->12 1->13 2->13 2->14 3->10 4-> 7 4-> 9 5-> 8 5->10 5->11
 #> [13] 5->13 6-> 8 9->14
 
@@ -185,25 +177,25 @@ set.seed(666)
 d <- tibble::tibble(
   g6 = replicate(
     10,
-    igraph::random.graph.game(sample(3:12, replace=TRUE), p=.5, directed=FALSE),
+    igraph::sample_gnp(sample(3:12, 1, replace=TRUE), p=.5, directed=FALSE),
     simplify=FALSE
   ) %>%
     as_graph6()
 )
 d
 #> # A tibble: 10 × 1
-#>    g6            
-#>    <chr>         
-#>  1 "FblF_"       
-#>  2 "DFc"         
-#>  3 "HfTaMwk"     
-#>  4 "KefToktrftZ~"
-#>  5 "JPraDzZQ?M?" 
-#>  6 "Bo"          
-#>  7 "Ed`w"        
-#>  8 "Gpuq|{"      
-#>  9 "EbSG"        
-#> 10 "ICNa@Gg\\o"
+#>    g6         
+#>    <chr>      
+#>  1 FSOT_      
+#>  2 JYNALTg{fE?
+#>  3 JWwbmJNOfX_
+#>  4 Gr|Kto     
+#>  5 IftZ~cXPo  
+#>  6 H`i@]us    
+#>  7 FClsO      
+#>  8 IlPd`~fbg  
+#>  9 BG         
+#> 10 GFnwpW
 ```
 
 Nice and compact. We can go further by doing some computations and
@@ -221,16 +213,16 @@ d %>%
   dplyr::select(-igraphs) %>%
   write.csv(row.names = FALSE)
 #> "g6","vc","ec","density"
-#> "FblF_",7,11,0.523809523809524
-#> "DFc",5,5,0.5
-#> "HfTaMwk",9,18,0.5
-#> "KefToktrftZ~",12,41,0.621212121212121
-#> "JPraDzZQ?M?",11,24,0.436363636363636
-#> "Bo",3,2,0.666666666666667
-#> "Ed`w",6,8,0.533333333333333
-#> "Gpuq|{",8,19,0.678571428571429
-#> "EbSG",6,6,0.4
-#> "ICNa@Gg\o",10,17,0.377777777777778
+#> "FSOT_",7,7,0.333333333333333
+#> "JYNALTg{fE?",11,26,0.472727272727273
+#> "JWwbmJNOfX_",11,28,0.509090909090909
+#> "Gr|Kto",8,17,0.607142857142857
+#> "IftZ~cXPo",10,27,0.6
+#> "H`i@]us",9,17,0.472222222222222
+#> "FClsO",7,9,0.428571428571429
+#> "IlPd`~fbg",10,26,0.577777777777778
+#> "BG",3,1,0.333333333333333
+#> "GFnwpW",8,16,0.571428571428571
 ```
 
 ## Installation
@@ -238,7 +230,7 @@ d %>%
 <!--
 Install released version from CRAN with:
 &#10;
-```r
+``` r
 install.packages("rgraph6")
 ```
 -->
@@ -264,14 +256,11 @@ install.packages("rgraph6", repos = "https://mbojan.r-universe.dev")
 
 **Co-authors**: David Schoch (<https://orcid.org/0000-0003-2952-4812>)
 
-To cite this package please use the following entries:
+To cite this package please use the following two entries:
 
-<p>
-McKay B, Piperno A (2014). “Practical graph isomorphism, II.”
-<em>Journal of Symbolic Computation</em>, <b>60</b>, 94–112.
-</p>
-<p>
-Bojanowski M, Schoch D (2021). <em>rgraph6: Representing Graphs as
-graph6, dgraph6 or sparse6 Strings</em>. R package version: 2.0-0,
-<a href="https://mbojan.github.io/rgraph6/">https://mbojan.github.io/rgraph6/</a>.
-</p>
+Bojanowski M, Schoch D (2024). *rgraph6: Representing Graphs as
+‘graph6’, ‘digraph6’ or ‘sparse6’ Strings*. R package version 2.0-4,
+<https://mbojan.github.io/rgraph6/>.
+
+McKay, B. D., & Piperno, A. (2014). Practical graph isomorphism, II.
+*Journal of Symbolic Computation*, 60, 94-112.
